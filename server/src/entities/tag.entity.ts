@@ -2,16 +2,17 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    JoinTable,
     ManyToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { TagEntity } from './tag.entity';
+import { PostEntity } from './post.entity';
 
 @Entity({
-    name: 'post',
+    name: 'tag',
 })
-export class PostEntity {
+export class TagEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -22,18 +23,14 @@ export class PostEntity {
     updateAt: Date;
 
     @Column()
-    title: string;
-
-    @Column({
-        type: 'longtext',
-    })
-    content: string;
+    name: string;
 
     @Column({
         default: false,
     })
     freeze: boolean;
 
-    @ManyToMany(() => TagEntity, (tag) => tag.posts)
-    tags: TagEntity[];
+    @ManyToMany(() => PostEntity, (post) => post.tags)
+    @JoinTable()
+    posts: PostEntity[];
 }

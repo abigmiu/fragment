@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreatePostDto } from './dto/create';
+import { ListPostDto } from './dto/list';
 import { PostService } from './post.service';
 
 @Controller('post')
@@ -12,8 +13,9 @@ export class PostController {
     @ApiOperation({
         summary: '列表',
     })
-    list() {
-        return '123';
+    list(@Query() dto: ListPostDto) {
+        console.log(typeof dto.lastId);
+        return this.postService.list(dto);
     }
 
     @Post()
@@ -21,6 +23,7 @@ export class PostController {
         summary: '新增',
     })
     create(@Body() dto: CreatePostDto) {
+        console.log(dto);
         return this.postService.create(dto);
     }
 }
