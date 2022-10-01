@@ -7,6 +7,7 @@ import { TagEntity } from 'src/entities/tag.entity';
 import { ITagListItem } from 'src/types/tag';
 import { Repository } from 'typeorm';
 import { CreateTagDto } from './dto/create.dto';
+import { UpdateTagDto } from './dto/update.dto';
 
 @Injectable()
 export class TagService {
@@ -48,6 +49,14 @@ export class TagService {
     async create(dto: CreateTagDto) {
         console.log(dto);
         await this.tagRepo.save(dto);
+        this.synchronize();
+    }
+
+    async update(id: number, dto: UpdateTagDto) {
+        const tag = new TagEntity();
+        tag.id = id;
+        tag.name = dto.name;
+        await this.tagRepo.save(tag);
         this.synchronize();
     }
 }

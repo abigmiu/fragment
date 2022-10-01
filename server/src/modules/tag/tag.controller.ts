@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import {
     ApiOkResponse,
     ApiOperation,
     ApiResponse,
     ApiTags,
 } from '@nestjs/swagger';
+import { IdParamDto } from 'src/common/dto/common.dto';
 import { ITagListItem } from 'src/types/tag';
 import { CreateTagDto } from './dto/create.dto';
 import { UpdateTagDto } from './dto/update.dto';
@@ -23,11 +24,13 @@ export class TagController {
         return this.tagService.create(dto);
     }
 
-    @Patch()
+    @Patch(':id')
     @ApiOperation({
         summary: '更新',
     })
-    update(@Body() dto: UpdateTagDto) {}
+    update(@Body() dto: UpdateTagDto, @Param() param: IdParamDto) {
+        return this.tagService.update(param.id, dto);
+    }
 
     @Get()
     @ApiOperation({

@@ -18,7 +18,7 @@ export class PostService {
 
     async list(dto: ListPostDto) {
         let res: [PostEntity[], number] = [[], 0];
-        dto.lastId = +dto.lastId;
+        dto.lastId = dto.lastId;
         if (dto.lastId) {
             res = await this.postRepo.findAndCount({
                 where: {
