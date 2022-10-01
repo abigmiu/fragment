@@ -14,6 +14,7 @@ async function bootstrap() {
 
     const swaggerOptions = new DocumentBuilder()
         .setTitle('碎片 - 后端文档')
+        .addBearerAuth()
         .build();
     const document = SwaggerModule.createDocument(app, swaggerOptions);
     SwaggerModule.setup('api-doc', app, document);

@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './modules/auth/auth.module';
 import { PostModule } from './modules/post/post.module';
 import { TagModule } from './modules/tag/tag.module';
 import { UserModule } from './modules/user/user.module';
@@ -13,6 +14,7 @@ import { UserModule } from './modules/user/user.module';
         UserModule,
         PostModule,
         TagModule,
+        AuthModule,
         TypeOrmModule.forRoot({
             type: 'mysql',
             host: 'localhost',
