@@ -1,0 +1,13 @@
+.login-page-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    .login-page {
+        width: 500px;
+
+        h1 {
+            text-align: center;
+        }
+    }
+}
