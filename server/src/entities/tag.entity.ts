@@ -9,9 +9,7 @@ import {
 } from 'typeorm';
 import { PostEntity } from './post.entity';
 
-@Entity({
-    name: 'tag',
-})
+@Entity('tag')
 export class TagEntity {
     @PrimaryGeneratedColumn()
     id: number;
@@ -28,7 +26,7 @@ export class TagEntity {
     @Column({
         default: false,
     })
-    freeze: boolean;
+    del: boolean;
 
     @ManyToMany(() => PostEntity, (post) => post.tags)
     @JoinTable()

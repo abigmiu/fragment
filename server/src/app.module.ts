@@ -1,20 +1,17 @@
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtService } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './modules/auth/auth.module';
-import { PostModule } from './modules/post/post.module';
-import { TagModule } from './modules/tag/tag.module';
-import { UserModule } from './modules/user/user.module';
+import { RBACAuthGuard } from './modules/auth/auth.guard';
+import modules from './modules/index';
 
 @Module({
     imports: [
-        UserModule,
-        PostModule,
-        TagModule,
-        AuthModule,
+        ...modules,
         TypeOrmModule.forRoot({
             type: 'mysql',
             host: 'localhost',
@@ -33,6 +30,13 @@ import { UserModule } from './modules/user/user.module';
         }),
     ],
     controllers: [AppController],
-    providers: [AppService],
+    providers: [
+        AppService,
+        JwtService,
+        {
+            provide: APP_GUARD,
+            useClass: RBACAuthGuard,
+        },
+    ],
 })
 export class AppModule {}

@@ -21,7 +21,7 @@ export class TagService {
     private async synchronize() {
         const repoData = await this.tagRepo.find({
             where: {
-                freeze: false,
+                del: false,
             },
         });
 

@@ -8,9 +8,7 @@ import {
 } from 'typeorm';
 import { TagEntity } from './tag.entity';
 
-@Entity({
-    name: 'post',
-})
+@Entity('post')
 export class PostEntity {
     @PrimaryGeneratedColumn()
     id: number;
@@ -28,6 +26,11 @@ export class PostEntity {
         type: 'longtext',
     })
     content: string;
+
+    @Column({
+        default: false,
+    })
+    del: boolean;
 
     @Column({
         default: false,
