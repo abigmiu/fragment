@@ -4,6 +4,7 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { AppModule } from './app.module';
+import { TransformInterceptor } from './interceptor/transfor.interceptor';
 import { ValidationPipe } from './pipe/validate.pipe';
 
 declare const module: any;
@@ -22,6 +23,7 @@ async function bootstrap() {
     SwaggerModule.setup('api-doc', app, document);
 
     app.useGlobalPipes(new ValidationPipe());
+    app.useGlobalInterceptors(new TransformInterceptor());
     app.useGlobalInterceptors(
         new ClassSerializerInterceptor(app.get(Reflector)),
     );

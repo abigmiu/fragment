@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { RoleEntity } from 'src/entities/role.entity';
 import { UserEntity } from 'src/entities/user.entity';
 import { IJwtData } from 'src/types/user';
 import { Repository } from 'typeorm';
@@ -12,6 +13,8 @@ export class UserService {
     constructor(
         @InjectRepository(UserEntity)
         private readonly userRepo: Repository<UserEntity>,
+        @InjectRepository(RoleEntity)
+        private readonly roleRepo: Repository<RoleEntity>,
         private readonly authService: AuthService,
     ) {}
 
@@ -36,6 +39,14 @@ export class UserService {
 
         const response = new ILoginResponse(res);
         response.token = token;
+        response.roleName = res.role.name;
+        const role = await this.roleRepo.findOne({
+            where: {
+                id: res.role.id,
+            },
+            relations: ['auths'],
+        });
+        response.authIds = role.auths.map((auth) => auth.id);
 
         return response;
     }
