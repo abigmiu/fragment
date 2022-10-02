@@ -1,6 +1,8 @@
 // import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { ClassSerializerInterceptor } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import { AppModule } from './app.module';
 import { ValidationPipe } from './pipe/validate.pipe';
 
@@ -8,7 +10,7 @@ declare const module: any;
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule, {
-        logger: ['warn', 'error', 'debug', 'verbose'],
+        // logger: ['warn', 'error', 'debug', 'verbose'],
     });
     app.setGlobalPrefix('api');
 
@@ -20,6 +22,9 @@ async function bootstrap() {
     SwaggerModule.setup('api-doc', app, document);
 
     app.useGlobalPipes(new ValidationPipe());
+    app.useGlobalInterceptors(
+        new ClassSerializerInterceptor(app.get(Reflector)),
+    );
     await app.listen(3009);
 
     console.log('碎片 server 运行', 'http://localhost:3009');

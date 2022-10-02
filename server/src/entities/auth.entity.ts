@@ -18,7 +18,6 @@ export class AuthEntity {
     @Column()
     summary: string;
 
-    @Column()
     @ManyToMany(() => RoleEntity, (role) => role.auths)
     @JoinTable()
     roles: RoleEntity[];

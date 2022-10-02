@@ -5,6 +5,7 @@ import { IJwtData } from 'src/types/user';
 import { Repository } from 'typeorm';
 import { AuthService } from '../auth/auth.service';
 import { LoginDto } from './dto/login.dto';
+import { ILoginResponse } from './dto/response.dto';
 
 @Injectable()
 export class UserService {
@@ -32,6 +33,10 @@ export class UserService {
         };
 
         const token = this.authService.createToken(data);
-        return token;
+
+        const response = new ILoginResponse(res);
+        response.token = token;
+
+        return response;
     }
 }
