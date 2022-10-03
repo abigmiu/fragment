@@ -3,12 +3,17 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import "antd/dist/antd.css";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LoginPage from "./pages/Login";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
         <BrowserRouter>
-            <App />
+            <Routes>
+                <Route path="/login" element={<LoginPage />}></Route>
+
+                <Route path="/*" element={<App />}></Route>
+            </Routes>
         </BrowserRouter>
     </React.StrictMode>
 );

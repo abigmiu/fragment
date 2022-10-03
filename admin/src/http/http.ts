@@ -14,7 +14,7 @@ const instance = axios.create({
 instance.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
     if (token) {
-        config.headers && (config.headers.authorization = token);
+        config.headers && (config.headers.Authorization = `Bearer ${token}`);
     }
     return config;
 });
@@ -60,6 +60,14 @@ const http = {
         config?: AxiosRequestConfig
     ): Promise<T> => {
         return instance.put(url, data, config);
+    },
+
+    patch: <T>(
+        url: string,
+        data?: any,
+        config?: AxiosRequestConfig
+    ): Promise<T> => {
+        return instance.patch(url, data, config);
     },
 };
 

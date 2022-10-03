@@ -3,10 +3,11 @@ import styles from "@/assets/styles/loginPage.module.scss";
 import http from "@/http/http";
 const LoginPage = () => {
     const onFinish = async (value: { account: string; password: string }) => {
-        const res = await http.post("user/admin", {
+        const res: any = await http.post("user/admin", {
             account: value.account,
             password: value.password,
         });
+        localStorage.setItem("token", res.token);
     };
 
     return (
