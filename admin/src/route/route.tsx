@@ -1,11 +1,11 @@
-import { RouteObject } from "react-router-dom";
+import { createBrowserRouter, RouteObject } from "react-router-dom";
 import LoginPage from "@/pages/Login";
 import Home from "@/pages/Home";
 import Tag from "@/pages/Tag";
 
 const routeConfig: RouteObject[] = [
     {
-        path: "login",
+        path: "/login",
         element: <LoginPage />,
     },
     {
@@ -20,4 +20,4 @@ const routeConfig: RouteObject[] = [
     },
 ];
 
-export default routeConfig;
+export default createBrowserRouter(routeConfig);

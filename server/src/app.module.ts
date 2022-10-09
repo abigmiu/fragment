@@ -17,7 +17,7 @@ import modules from './modules/index';
             host: 'localhost',
             port: 3306,
             username: 'root',
-            password: '123456789',
+            password: '123456',
             database: 'fragment',
             entities: [path.join(__dirname, './entities/**/*.entity{.js,.ts}')],
             synchronize: true,
