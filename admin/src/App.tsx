@@ -1,8 +1,8 @@
 import { Layout, Menu } from "antd";
 import styles from "@/assets/styles/home.module.scss";
 import { useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import Tag from "./pages/Tag";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
+import Auth from "./pages/Auth";
 
 const menuItems = [
     {
@@ -12,7 +12,15 @@ const menuItems = [
     },
 ];
 
-function App() {
+const RouterView = (props: any) => {
+    console.log(props);
+    return <div>1</div>;
+};
+
+function App(props: any) {
+    console.log(props);
+    const params = useParams();
+    console.log(params);
     const [current, setCurrent] = useState("");
     const navigate = useNavigate();
 
@@ -23,26 +31,26 @@ function App() {
         setCurrent(key);
     };
     return (
-        <Layout className={styles["home-wrapper"]}>
-            <Layout.Sider theme="light">
-                <Menu
-                    items={menuItems}
-                    mode="inline"
-                    onClick={onMenuChange}
-                    selectedKeys={[current]}
-                ></Menu>
-            </Layout.Sider>
-            <Layout>
-                <Layout.Header style={{ background: "white" }}>
-                    Header
-                </Layout.Header>
-                <Layout.Content>
-                    <Routes>
-                        <Route path="tag" element={<Tag />}></Route>
-                    </Routes>
-                </Layout.Content>
+        <Auth>
+            <Layout className={styles["home-wrapper"]}>
+                <Layout.Sider theme="light">
+                    <Menu
+                        items={menuItems}
+                        mode="inline"
+                        onClick={onMenuChange}
+                        selectedKeys={[current]}
+                    ></Menu>
+                </Layout.Sider>
+                <Layout>
+                    <Layout.Header style={{ background: "white" }}>
+                        Header
+                    </Layout.Header>
+                    <Layout.Content className={styles["content-wrapper"]}>
+                        <Outlet></Outlet>
+                    </Layout.Content>
+                </Layout>
             </Layout>
-        </Layout>
+        </Auth>
     );
 }
 

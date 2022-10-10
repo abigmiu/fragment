@@ -1,16 +1,21 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 import LoginPage from "@/pages/Login";
-import Home from "@/pages/Home";
 import Tag from "@/pages/Tag";
+import App from "@/App";
 
-const routeConfig: RouteObject[] = [
+interface IRouteObject extends RouteObject {
+    auth?: boolean;
+}
+
+const routeConfig: IRouteObject[] = [
     {
         path: "/login",
         element: <LoginPage />,
+        auth: false,
     },
     {
         path: "/",
-        element: <Home />,
+        element: <App />,
         children: [
             {
                 path: "/tag",
