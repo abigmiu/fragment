@@ -38,7 +38,7 @@ instance.interceptors.response.use(
 );
 
 const http = {
-    get: <T>(url: string, config?: AxiosRequestConfig): Promise<T> => {
+    get: <T>(url: string, config?: AxiosRequestConfig<any>): Promise<T> => {
         return instance.get(url, config);
     },
 

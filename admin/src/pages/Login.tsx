@@ -1,13 +1,18 @@
 import { Card, Form, Input, Button } from "antd";
 import styles from "@/assets/styles/loginPage.module.scss";
 import http from "@/http/http";
+import {useNavigate} from "react-router-dom";
+
 const LoginPage = () => {
+    const navigator = useNavigate()
+    
     const onFinish = async (value: { account: string; password: string }) => {
         const res: any = await http.post("user/admin", {
             account: value.account,
             password: value.password,
         });
         localStorage.setItem("token", res.token);
+        navigator('/tag')
     };
 
     return (

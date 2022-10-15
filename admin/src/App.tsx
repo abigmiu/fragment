@@ -1,7 +1,7 @@
-import { Layout, Menu } from "antd";
+import {Layout, Menu} from "antd";
 import styles from "@/assets/styles/home.module.scss";
-import { useState } from "react";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import {useState} from "react";
+import {Outlet, useNavigate, useParams} from "react-router-dom";
 import Auth from "./pages/Auth";
 
 const menuItems = [
@@ -10,6 +10,11 @@ const menuItems = [
         path: "/tag",
         label: "标签",
     },
+    {
+        key: 'post',
+        path: '/post',
+        label: "文章"
+    }
 ];
 
 const RouterView = (props: any) => {
@@ -24,7 +29,7 @@ function App(props: any) {
     const [current, setCurrent] = useState("");
     const navigate = useNavigate();
 
-    const onMenuChange = ({ key, item }: any) => {
+    const onMenuChange = ({key, item}: any) => {
         // @ts-ignore
         navigate(item.props.path);
 
@@ -42,7 +47,7 @@ function App(props: any) {
                     ></Menu>
                 </Layout.Sider>
                 <Layout>
-                    <Layout.Header style={{ background: "white" }}>
+                    <Layout.Header style={{background: "white"}}>
                         Header
                     </Layout.Header>
                     <Layout.Content className={styles["content-wrapper"]}>

@@ -17,3 +17,21 @@ export class ListPostDto {
     @Type(() => Number)
     size: number;
 }
+
+export class PostPageDto {
+    @ApiProperty({
+        description: 'page',
+        default: 1,
+    })
+    @IsInt()
+    @Type(() => Number)
+    page: number;
+
+    @ApiProperty({
+        description: 'size',
+        default: 10,
+    })
+    @IsInt()
+    @Type(() => Number)
+    size: number;
+}

@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PostEntity } from 'src/entities/post.entity';
+import { IPageResponse } from 'src/types/page';
 import { LessThan, Repository } from 'typeorm';
 import { CreatePostDto } from './dto/create';
-import { ListPostDto } from './dto/list';
+import { ListPostDto, PostPageDto } from './dto/list';
 
 @Injectable()
 export class PostService {
@@ -14,6 +15,23 @@ export class PostService {
 
     async create(dto: CreatePostDto) {
         await this.postRepo.save(dto);
+    }
+
+    async page(dto: PostPageDto) {
+        const res = await this.postRepo.findAndCount({
+            where: {
+                freeze: false,
+            },
+            take: dto.size,
+            skip: dto.page * dto.size,
+        });
+
+        const response: IPageResponse = {
+            content: res[0],
+            total: res[1],
+        };
+
+        return response;
     }
 
     async list(dto: ListPostDto) {
@@ -41,8 +59,11 @@ export class PostService {
                 },
             });
         }
-
-        return res;
+        const response: IPageResponse = {
+            content: res[0],
+            total: res[1],
+        };
+        return response;
     }
 
     async random() {

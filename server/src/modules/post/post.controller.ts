@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreatePostDto } from './dto/create';
-import { ListPostDto } from './dto/list';
+import { ListPostDto, PostPageDto } from './dto/list';
 import { PostService } from './post.service';
 
 @Controller('post')
@@ -17,6 +17,14 @@ export class PostController {
     list(@Query() dto: ListPostDto) {
         console.log(typeof dto.lastId);
         return this.postService.list(dto);
+    }
+
+    @Get('page')
+    @ApiOperation({
+        summary: '分页',
+    })
+    page(@Query() dto: PostPageDto) {
+        return this.postService.page(dto);
     }
 
     @Post()
