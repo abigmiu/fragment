@@ -48,9 +48,11 @@ const PostList = () => {
     ]
     
     const fetchData = async () => {
-        const res = await  http.get<DataType[]>('post/page', {
+        const res = await  http.get<any>('post/page', {
             params: pagination
         })
+        setDataSource(res.content)
+        setTotal(res.total)
     }
     
     const pagination = {

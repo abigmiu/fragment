@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PostEntity } from 'src/entities/post.entity';
+import { TagEntity } from 'src/entities/tag.entity';
 import { IPageResponse } from 'src/types/page';
 import { LessThan, Repository } from 'typeorm';
 import { CreatePostDto } from './dto/create';
@@ -14,7 +15,15 @@ export class PostService {
     ) {}
 
     async create(dto: CreatePostDto) {
-        await this.postRepo.save(dto);
+        const post = new PostEntity();
+        post.content = dto.content;
+        post.title = dto.title;
+        post.tags = dto.tagIds.map((tagId) => {
+            const tag = new TagEntity();
+            tag.id = tagId;
+            return tag;
+        });
+        await this.postRepo.save(post);
     }
 
     async page(dto: PostPageDto) {
@@ -23,7 +32,7 @@ export class PostService {
                 freeze: false,
             },
             take: dto.size,
-            skip: dto.page * dto.size,
+            skip: (dto.page - 1) * dto.size,
         });
 
         const response: IPageResponse = {
@@ -68,5 +77,34 @@ export class PostService {
 
     async random() {
         // TODO:
+    }
+
+    async detail(id: number) {
+        const res = await this.postRepo.findOne({
+            where: {
+                id: id,
+            },
+            relations: ['tags'],
+        });
+
+        const response = {
+            ...res,
+            tagIds: res.tags.map((tag) => tag.id),
+        };
+
+        return response;
+    }
+
+    async update(id: number, dto: CreatePostDto) {
+        const post = new PostEntity();
+        post.id = id;
+        post.content = dto.content;
+        post.title = dto.title;
+        post.tags = dto.tagIds.map((tagId) => {
+            const tag = new TagEntity();
+            tag.id = tagId;
+            return tag;
+        });
+        await this.postRepo.save(post);
     }
 }
